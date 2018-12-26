@@ -34,4 +34,13 @@ public class TranslatorData implements Serializable {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "TranslatorData{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }

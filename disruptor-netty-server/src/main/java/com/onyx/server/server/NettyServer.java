@@ -1,12 +1,15 @@
 package com.onyx.server.server;
 
+import com.onyx.codec.MarshallingCodeCFactory;
 import com.onyx.common.TranslatorData;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.AdaptiveRecvByteBufAllocator;
+import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
@@ -32,8 +35,15 @@ public class NettyServer {
                 //缓冲对象池  缓存区
                 .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                 //日志的打印
-                .handler(new LoggingHandler(LogLevel.INFO));
-                //.childHandler()
+                .handler(new LoggingHandler(LogLevel.INFO))
+                .childHandler(new ChannelInitializer<SocketChannel>(){
+                    @Override
+                    protected void initChannel(SocketChannel sc) throws Exception {
+                        sc.pipeline().addLast(MarshallingCodeCFactory.buildMarshallingDecoder());
+                        sc.pipeline().addLast(MarshallingCodeCFactory.buildMarshallingEncoder());
+                        sc.pipeline().addLast(new ServerHandle());
+                    }
+                });
 
 
 
