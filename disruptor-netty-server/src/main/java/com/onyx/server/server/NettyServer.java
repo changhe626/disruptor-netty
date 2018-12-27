@@ -1,7 +1,6 @@
 package com.onyx.server.server;
 
 import com.onyx.codec.MarshallingCodeCFactory;
-import com.onyx.common.TranslatorData;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.AdaptiveRecvByteBufAllocator;
