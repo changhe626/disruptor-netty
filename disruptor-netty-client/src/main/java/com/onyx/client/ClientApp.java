@@ -8,8 +8,10 @@ public class ClientApp {
 
     public static void main(String[] args) {
         SpringApplication.run(ClientApp.class, args);
+
+        new NettyClient();
     }
-    //137  1669  1145
+
 
 }
 
