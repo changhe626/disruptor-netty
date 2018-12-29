@@ -3,6 +3,9 @@ package com.onyx.disruptor;
 import com.lmax.disruptor.WorkHandler;
 import com.onyx.common.TranslatorDataWapper;
 
+/**
+ * onEvent  由子类去实现.
+ */
 public abstract class MessageConsumers implements WorkHandler<TranslatorDataWapper> {
 
     protected String consumerId;

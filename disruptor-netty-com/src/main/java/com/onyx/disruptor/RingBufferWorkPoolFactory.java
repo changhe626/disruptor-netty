@@ -8,10 +8,8 @@ import com.lmax.disruptor.WaitStrategy;
 import com.lmax.disruptor.WorkerPool;
 import com.lmax.disruptor.dsl.ProducerType;
 import com.onyx.common.TranslatorDataWapper;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.Executors;
 
 public class RingBufferWorkPoolFactory {
@@ -39,12 +37,7 @@ public class RingBufferWorkPoolFactory {
     public void initAndStart(ProducerType producerType, int bufferSize, WaitStrategy waitStrategy,MessageConsumers[] messageConsumers){
         //1.构建ringBuffer对象
         ringBuffer = RingBuffer.create(producerType,
-                new EventFactory<TranslatorDataWapper>() {
-                    @Override
-                    public TranslatorDataWapper newInstance() {
-                        return new TranslatorDataWapper();
-                    }
-                },
+                new TranslatorDataWapperEventFactory(),
                 bufferSize,
                 waitStrategy
         );
@@ -79,20 +72,27 @@ public class RingBufferWorkPoolFactory {
 
         @Override
         public void handleEventException(Throwable ex, long sequence, TranslatorDataWapper event) {
-
         }
 
         @Override
         public void handleOnStartException(Throwable ex) {
-
         }
 
         @Override
         public void handleOnShutdownException(Throwable ex) {
-
         }
     }
 
+    /**
+     * 工厂类
+     */
+    static class TranslatorDataWapperEventFactory implements EventFactory<TranslatorDataWapper>{
+
+        @Override
+        public TranslatorDataWapper newInstance() {
+            return new TranslatorDataWapper();
+        }
+    }
 
 
 }
